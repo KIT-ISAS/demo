@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ISAS | Theory &amp; Applications</title>
+  <style>
+    :root { color-scheme: light; font-family: Aptos, Calibri, Helvetica, sans-serif; color: #233740; background: #fff; --blue: #305ca7; --teal: #007e72; --line: #dce5e8; }
+    * { box-sizing: border-box; }
+    body { margin: 0; letter-spacing: 0; }
+    a { color: var(--blue); text-underline-offset: 4px; }
+    button { font: inherit; letter-spacing: 0; }
+    header, main, footer { max-width: 1340px; margin: auto; padding: 0 36px; }
+    header { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; padding-top: 30px; padding-bottom: 26px; }
+    h1 { font-size: 30px; font-weight: 650; margin: 0; }
+    h1 span { color: var(--teal); }
+    main { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px; align-items: stretch; }
+    main > section { display: flex; flex-direction: column; }
+    h2 { font-size: 21px; line-height: 1.4; margin: 0 0 22px; padding: 13px 0; border-top: 4px solid var(--blue); border-bottom: 1px solid var(--line); color: var(--blue); }
+    .applications h2 { color: var(--teal); border-top-color: var(--teal); }
+    .theory-groups { display: flex; flex-direction: column; flex: 1; gap: 13px; }
+    .theory-group { --accent: #456da8; display: grid; grid-template-columns: 78px minmax(0, 1fr); align-content: center; flex: 1; gap: 5px 14px; padding: 12px 14px; border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; background: #eef4fc; transition: border-color .16s; }
+    .theory-group:nth-child(2) { --accent: #388477; background: #edf7f3; }
+    .theory-group:nth-child(3) { --accent: #8766a6; background: #f4eff9; }
+    .theory-group:nth-child(4) { --accent: #a77c29; background: #fcf6e8; }
+    .theory-group:nth-child(5) { --accent: #b16559; background: #fcefeb; }
+    .theory-group:nth-child(6) { --accent: #448499; background: #edf6f9; }
+    .theory-group:nth-child(7) { --accent: #6f8943; background: #f1f6e9; }
+    .theory-group h3 { grid-column: 2; grid-row: 1; margin: 0; cursor: pointer; }
+    .theory-figure { grid-column: 1; grid-row: 1 / 3; align-self: center; width: 78px; height: 64px; color: var(--accent); }
+    .theory-group .methods { grid-column: 2; grid-row: 2; }
+    h3 { font-size: 17px; line-height: 1.35; margin: 0 0 7px; font-weight: 650; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    .methods { columns: 1; }
+    .methods li { break-inside: avoid; margin-bottom: 5px; }
+    .methods li, .example { position: relative; font-size: 15px; line-height: 1.4; padding: 3px 6px 3px 16px; border-radius: 3px; transition: background .16s, color .16s; }
+    .methods li::before, .example::before { content: ''; position: absolute; width: 4px; height: 4px; border-radius: 50%; left: 5px; top: 12px; background: currentColor; }
+    .methods li.related { background: #305ca7; color: #fff; font-weight: 600; }
+    .methods li.related::before { background: #fff; }
+    .methods li:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+    .theory-group.related { --box-highlight: var(--blue); border-left-color: var(--blue); }
+    .app-list { display: flex; flex-direction: column; flex: 1; gap: 13px; }
+    .app { --accent: #388477; --surface: #edf7f3; --surface-active: #deeee7; display: grid; grid-template-columns: 78px minmax(0, 1fr); align-items: center; flex: 1; gap: 19px; width: 100%; padding: 18px; text-align: left; color: inherit; border: 1px solid var(--accent); border-left: 3px solid var(--accent); border-radius: 6px; background: var(--surface); cursor: pointer; transition: background .16s, border-color .16s; }
+    .app:hover, .app.active { background: var(--surface-active); border-color: var(--accent); }
+    .app:focus-visible { outline: 3px solid #305ca7; outline-offset: 3px; }
+    .app h3 { color: var(--accent); font-size: 18px; margin-bottom: 8px; }
+    .app-select, .example { display: block; width: 100%; padding: 0; border: 0; border-radius: 3px; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+    .app-select { font-weight: inherit; }
+    .app-select:focus-visible, .example:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+    .examples { display: grid; align-content: start; gap: 5px; font-size: 15px; line-height: 1.4; color: #425d61; }
+    .example { padding: 3px 6px 3px 16px; margin: 0; width: 100%; line-height: inherit; }
+    .example.related { background: #f5df9a; color: #243b3a; box-shadow: inset 3px 0 0 #b68c3c; }
+    .scene { width: 78px; height: 84px; align-self: center; color: var(--accent); }
+    .app:nth-child(2) { --accent: #456da8; --surface: #eef4fc; --surface-active: #dfeaf9; padding-top: 23px; padding-bottom: 23px; }
+    .app:nth-child(3) { --accent: #8766a6; --surface: #f4eff9; --surface-active: #eae0f3; padding-top: 25px; padding-bottom: 25px; }
+    .app:nth-child(4) { --accent: #a45044; --surface: #fcefeb; --surface-active: #f6e1db; }
+    .app:nth-child(5) { --accent: #89651f; --surface: #fcf6e8; --surface-active: #f4eacb; }
+    @media screen {
+      .theory-group.related { background-image: linear-gradient(#305ca70a, #305ca70a); }
+      .app.active { --box-highlight: var(--accent); background: var(--surface-active); border-color: var(--accent); }
+      .theory-group.related, .app.active { box-shadow: inset 0 0 0 2px var(--box-highlight); }
+    }
+    footer { display: flex; justify-content: space-between; gap: 24px; padding-top: 26px; padding-bottom: 25px; margin-top: 26px; font-size: 12px; line-height: 1.5; color: #61737a; }
+    footer p { margin: 0; max-width: 780px; }
+    [hidden] { display: none !important; }
+    .paper-panel { position: fixed; z-index: 20; width: min(390px, calc(100vw - 24px)); max-height: min(520px, calc(100dvh - 24px)); overflow: auto; padding: 16px; border: 1px solid #aebfc8; border-top: 3px solid var(--blue); border-radius: 6px; background: #fff; box-shadow: 0 8px 28px #23374026; font-size: 14px; }
+    #close-papers { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 26px; height: 26px; padding: 0; border: 0; border-radius: 3px; background: #fff; color: #425d61; font-size: 22px; cursor: pointer; }
+    .paper-panel p { margin: 9px 0; line-height: 1.4; }
+    .paper-panel li { padding: 10px 0; border-top: 1px solid var(--line); }
+    .paper-panel li:first-child { padding-top: 0; padding-right: 24px; border-top: 0; }
+    .paper-panel a, .paper-key { font-family: Consolas, monospace; overflow-wrap: anywhere; font-weight: 600; }
+    .paper-panel a:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+    .paper-title, .paper-note { display: block; margin-top: 4px; color: #5b6e77; font-size: 12px; line-height: 1.45; }
+    @media print { .paper-panel { display: none !important; } }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+    @media (max-width: 950px) { header, main, footer { padding-left: 22px; padding-right: 22px; } main { gap: 26px; } .methods { columns: 1; } .theory-group { grid-template-columns: 58px minmax(0, 1fr); gap: 5px 10px; padding: 12px; } .theory-figure { width: 58px; height: 56px; } .app { grid-template-columns: 58px minmax(0, 1fr); gap: 12px; padding: 15px; } .scene { width: 58px; height: 72px; } h2 { font-size: 18px; } }
+    @media (max-width: 650px) { header { align-items: start; } h1 { font-size: 26px; } main { display: flex; flex-direction: column; gap: 32px; } main > section { width: 100%; } .applications { order: -1; } .methods { grid-template-columns: repeat(2, minmax(0, 1fr)); } footer { flex-direction: column; gap: 10px; } }
+    @media (max-width: 650px) { .theory-group .methods { grid-template-columns: 1fr; } }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+    @media print { @page { size: A4 landscape; margin: 10mm; } header, main, footer { padding-left: 0; padding-right: 0; } header { padding-top: 0; padding-bottom: 16px; } main { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; } .methods { grid-template-columns: repeat(2, minmax(0, 1fr)); } .theory-groups { gap: 12px; } .app-list { gap: 10px; } .app, .app:nth-child(n) { padding: 10px; break-inside: avoid; background: #fff; } .methods li.related { background: transparent; color: inherit; font-weight: inherit; } .methods li, .examples { font-size: 12px; } h2 { font-size: 18px; margin-bottom: 12px; } h3, .app h3 { font-size: 15px; } footer { margin-top: 10px; padding-top: 10px; } }
+  </style>
+</head>
+<body>
+  <header><h1>Research <span>@ ISAS</span></h1></header>
+  <main>
+    <section class="theory" aria-labelledby="theory-title">
+      <h2 id="theory-title">THEORY &ndash; Estimation &amp; Control</h2>
+      <div class="theory-groups">
+        <section class="theory-group">
+          <h3>Density Representation &amp; Approximation</h3>
+          <svg class="theory-figure" viewBox="0 0 112 64" role="img" aria-label="Schematic mixture density with two peaks and discrete samples" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M5 55H108M8 55V7" stroke-opacity=".3"/>
+            <path d="M9 54C19 54 18 16 32 16S44 48 53 48S63 7 78 7S93 52 106 54V55H9Z" fill="currentColor" fill-opacity=".14"/>
+            <path d="M9 54C19 54 18 16 32 16S44 48 53 48S63 7 78 7S93 52 106 54"/>
+            <path d="M22 55V43M32 55V23M42 55V44M67 55V29M78 55V14M89 55V31" stroke="#B68C3C"/>
+          </svg>
+          <ul class="methods">
+            <li id="mixtures">Dirac &amp; Gaussian mixtures</li>
+            <li id="fourier">Fourier representations</li>
+            <li id="reduction">Mixture reduction &amp; Wasserstein methods</li>
+            <li id="cpd">Low-rank tensors / CPD</li>
+          </ul>
+        </section>
+        <section class="theory-group">
+          <h3>Nonlinear Filtering &amp; Prediction</h3>
+          <svg class="theory-figure" viewBox="0 0 112 64" role="img" aria-label="Schematic uncertain state propagated to a predicted state" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <ellipse cx="25" cy="39" rx="17" ry="13" fill="currentColor" fill-opacity=".12"/>
+            <ellipse cx="83" cy="24" rx="24" ry="15" transform="rotate(-20 83 24)" fill="currentColor" fill-opacity=".12"/>
+            <path d="M26 39C45 42 46 22 80 24M72 19L80 24L72 29"/>
+            <g fill="currentColor" stroke="none"><circle cx="19" cy="36" r="2.5"/><circle cx="29" cy="42" r="2.5"/><circle cx="28" cy="32" r="2.5"/><circle cx="75" cy="22" r="2.5"/><circle cx="88" cy="19" r="2.5"/><circle cx="88" cy="29" r="2.5"/></g>
+          </svg>
+          <ul class="methods">
+            <li id="progressive">Progressive filtering &amp; particle flows</li>
+            <li id="grid">Point-mass &amp; kernel-SME filters</li>
+            <li id="fokker">Fokker&ndash;Planck prediction</li>
+            <li id="calibration">Bounds &amp; calibration</li>
+          </ul>
+        </section>
+        <section class="theory-group">
+          <h3>Directional &amp; Manifold Estimation</h3>
+          <svg class="theory-figure" viewBox="0 0 112 64" role="img" aria-label="Spherical state space with an estimated direction" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="54" cy="32" r="26" fill="currentColor" fill-opacity=".08"/>
+            <ellipse cx="54" cy="32" rx="12" ry="26" stroke-opacity=".5"/>
+            <ellipse cx="54" cy="32" rx="26" ry="10" stroke-opacity=".5"/>
+            <path d="M54 32L76 13M66 15L76 13L73 23" stroke="#B68C3C" stroke-width="2.4"/>
+            <circle cx="54" cy="32" r="2.5" fill="currentColor"/>
+          </svg>
+          <ul class="methods">
+            <li id="directional">Bingham &amp; von Mises&ndash;Fisher models</li>
+            <li id="pose">Pose estimation on SE(2) / SE(3)</li>
+            <li id="manifolds">Circles, spheres &amp; tori</li>
+          </ul>
+        </section>
+        <section class="theory-group">
+          <h3>Deterministic Sampling</h3>
+          <svg class="theory-figure" viewBox="0 0 112 64" role="img" aria-label="Evenly spread deterministic samples in a circular domain" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="56" cy="32" r="27" fill="currentColor" fill-opacity=".07" stroke-opacity=".4"/>
+            <g fill="currentColor" stroke="none"><circle cx="56" cy="32" r="2.3"/><circle cx="48" cy="38" r="2.3"/><circle cx="57" cy="20" r="2.3"/><circle cx="65" cy="43" r="2.3"/><circle cx="40" cy="29" r="2.3"/><circle cx="72" cy="24" r="2.3"/><circle cx="51" cy="50" r="2.3"/><circle cx="46" cy="14" r="2.3"/><circle cx="76" cy="39" r="2.3"/><circle cx="35" cy="42" r="2.3"/><circle cx="65" cy="10" r="2.3"/><circle cx="64" cy="55" r="2.3"/><circle cx="33" cy="20" r="2.3"/><circle cx="81" cy="29" r="2.3"/></g>
+          </svg>
+          <ul class="methods">
+            <li id="fibonacci">Generalized Fibonacci grids</li>
+            <li id="samples">Low-discrepancy &amp; projected samples</li>
+            <li id="sample-reduction">Optimal sample reduction</li>
+          </ul>
+        </section>
+        <section class="theory-group">
+          <h3>Multi-Object &amp; Extended-Object Tracking</h3>
+          <svg class="theory-figure" viewBox="0 0 112 64" role="img" aria-label="Two tracked object extents with detections and motion trails" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M5 47L20 41L36 31M27 58L43 51L63 43" stroke-dasharray="3 4"/>
+            <ellipse cx="47" cy="24" rx="23" ry="12" transform="rotate(-25 47 24)" fill="currentColor" fill-opacity=".12"/>
+            <ellipse cx="83" cy="43" rx="20" ry="11" fill="currentColor" fill-opacity=".12"/>
+            <g fill="currentColor" stroke="none"><circle cx="37" cy="25" r="2"/><circle cx="47" cy="20" r="2"/><circle cx="54" cy="24" r="2"/><circle cx="77" cy="40" r="2"/><circle cx="88" cy="46" r="2"/><circle cx="92" cy="40" r="2"/></g>
+          </svg>
+          <ul class="methods">
+            <li id="eot">Extended-object tracking (EOT)</li>
+            <li id="mtt">Association-free multi-target tracking</li>
+          </ul>
+        </section>
+        <section class="theory-group">
+          <h3>Distributed &amp; Event-Based Fusion</h3>
+          <svg class="theory-figure" viewBox="0 0 112 64" role="img" aria-label="Distributed sensor estimates combined into a shared estimate" fill="none" stroke="currentColor" stroke-width="1.7">
+            <path d="M19 14L57 32L94 13M19 51L57 32L94 51"/>
+            <g fill="currentColor" fill-opacity=".12"><circle cx="19" cy="14" r="8"/><circle cx="19" cy="51" r="8"/><circle cx="94" cy="13" r="8"/><circle cx="94" cy="51" r="8"/></g>
+            <circle cx="57" cy="32" r="12" fill="#fff"/><circle cx="57" cy="32" r="5" fill="currentColor" stroke="none"/>
+          </svg>
+          <ul class="methods">
+            <li id="covariance">Covariance intersection</li>
+            <li id="decentralized">Decentralized &amp; privacy-preserving fusion</li>
+            <li id="triggers">Stochastic event triggers</li>
+          </ul>
+        </section>
+        <section class="theory-group">
+          <h3>Stochastic Optimal Control</h3>
+          <svg class="theory-figure" viewBox="0 0 112 64" role="img" aria-label="Candidate control trajectories converging toward a target" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+            <path d="M7 56H107M9 56V7" stroke-opacity=".3"/>
+            <path d="M12 47C36 44 31 12 55 15S79 29 104 22M12 47C30 48 44 39 61 39S85 20 104 22" stroke-opacity=".4"/>
+            <path d="M12 47C33 48 35 25 57 25S83 20 104 22" stroke-width="2.5"/>
+            <path d="M12 47C32 55 43 47 62 44S88 34 104 22" stroke-dasharray="3 4" stroke-opacity=".5"/>
+            <circle cx="104" cy="22" r="4" fill="#B68C3C" stroke="#B68C3C"/>
+          </svg>
+          <ul class="methods">
+            <li id="mpc">Sampling-based MPC</li>
+            <li id="chance">Chance constraints</li>
+            <li id="networks">Control over networks</li>
+            <li id="value">Value-function approximation</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <section class="applications" aria-labelledby="applications-title">
+      <h2 id="applications-title">APPLICATIONS &ndash; Sensor-Actuator Systems</h2>
+      <div class="app-list">
+        <article class="app" data-methods="mixtures progressive mtt mpc chance">
+          <svg class="scene" viewBox="0 0 90 90" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 57H81V70H8ZM16 76H74M24 70V76M65 70V76M52 10V30L43 39M59 20H75"/><circle cx="23" cy="63" r="3"/><circle cx="66" cy="63" r="3"/><path d="M23 47L29 37L35 47ZM49 47H59V37H49"/><path d="M63 37L73 44L68 51" stroke="#B68C3C"/></svg>
+          <div><h3><button class="app-select" type="button" aria-pressed="false">Sensor-Based Sorting &amp; Recycling</button></h3><div class="examples"><button class="example" type="button" aria-pressed="false" data-paper-topic="sorting-tracking" data-methods="mixtures progressive mtt">Optical belt sorting &amp; predictive tracking</button><button class="example" type="button" aria-pressed="false" data-paper-topic="recirculation" data-methods="mpc chance">Material recirculation control</button><button class="example" type="button" aria-pressed="false" data-paper-topic="simulation" data-methods="">DEM&ndash;CFD simulation</button><button class="example" type="button" aria-pressed="false" data-paper-topic="particle-deflection" data-methods="">Particle-specific deflection windows</button><button class="example" type="button" aria-pressed="false" data-paper-topic="material-flow" data-methods="">Instrumented-particle material-flow analysis</button></div></div>
+        </article>
+        <article class="app" data-methods="progressive calibration pose covariance decentralized">
+          <svg class="scene" viewBox="0 0 90 90" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 68L29 46L49 53L72 22M10 80H80M15 76V84M73 76V84M28 66H61V76H28ZM36 66V57H52V66"/><circle cx="13" cy="68" r="4"/><circle cx="72" cy="22" r="4"/><path d="M58 15A20 20 0 0 1 79 36M61 23A11 11 0 0 1 71 33" stroke="#B68C3C"/></svg>
+          <div><h3><button class="app-select" type="button" aria-pressed="false">Localization &amp; Navigation</button></h3><div class="examples"><button class="example" type="button" aria-pressed="false" data-paper-topic="train-localization" data-methods="progressive calibration pose">Magnetic train localization &amp; multilateration</button><button class="example" type="button" aria-pressed="false" data-paper-topic="inertial-fusion" data-methods="pose covariance decentralized">UWB &amp; LiDAR&ndash;inertial fusion</button><button class="example" type="button" aria-pressed="false" data-paper-topic="rssi-localization" data-methods="progressive calibration">Indoor RSSI localization</button><button class="example" type="button" aria-pressed="false" data-paper-topic="robot-magnetic-localization" data-methods="pose calibration">Magnetic localization of tracked robots</button><button class="example" type="button" aria-pressed="false" data-paper-topic="railway-track-identification" data-methods="pose">Joint train localization &amp; track identification</button></div></div>
+        </article>
+        <article class="app" data-methods="pose directional manifolds progressive mpc networks">
+          <svg class="scene" viewBox="0 0 90 90" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 78H46M17 78V67H34V78M25 67L14 44L39 26L56 40M52 36L64 32L70 43L60 48M73 54V72M66 79L73 72L81 79"/><circle cx="14" cy="44" r="5"/><circle cx="39" cy="26" r="5"/><circle cx="73" cy="45" r="6"/><path d="M52 12Q72 5 82 22" stroke="#B68C3C"/></svg>
+          <div><h3><button class="app-select" type="button" aria-pressed="false">Robotics, Haptics &amp; Human Interaction</button></h3><div class="examples"><button class="example" type="button" aria-pressed="false" data-paper-topic="haptic-guidance" data-methods="mpc pose">HapticGiant &amp; haptic-guided paths</button><button class="example" type="button" aria-pressed="false" data-paper-topic="teleoperation" data-methods="networks pose">Decontamination &amp; extended-range teleoperation</button><button class="example" type="button" aria-pressed="false" data-paper-topic="motion-intention" data-methods="directional manifolds progressive">IMU kinematics, intention &amp; activity estimation</button><button class="example" type="button" aria-pressed="false" data-paper-topic="ar-haptics" data-methods="pose progressive">AR/VR pose tracking &amp; Gaussian-splatting haptics</button><button class="example" type="button" aria-pressed="false" data-paper-topic="affordance-grasping" data-methods="pose">Affordance-based grasping &amp; manipulation</button><button class="example" type="button" aria-pressed="false" data-paper-topic="multi-robot-collision" data-methods="">Multi-robot collision avoidance under uncertainty</button></div></div>
+        </article>
+        <article class="app" data-methods="progressive directional manifolds pose">
+          <svg class="scene" viewBox="0 0 90 90" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 56H21L28 42L37 69L46 50H59M10 17H48V34H10ZM48 22L61 16V35L48 29M66 47H82M74 39V55M60 66L67 72L80 60"/><circle cx="29" cy="25" r="5"/></svg>
+          <div><h3><button class="app-select" type="button" aria-pressed="false">Medical Systems</button></h3><div class="examples"><button class="example" type="button" aria-pressed="false" data-paper-topic="heart-tracking" data-methods="progressive directional manifolds">Beating-heart tracking &amp; image stabilization</button><button class="example" type="button" aria-pressed="false" data-paper-topic="electrograms" data-methods="directional manifolds">Atrial electrogram analysis</button><button class="example" type="button" aria-pressed="false" data-paper-topic="camera-tracking" data-methods="pose progressive">Camera-based tracking</button><button class="example" type="button" aria-pressed="false" data-paper-topic="orthopedic-devices" data-methods="">Handheld robotic devices for orthopedic surgery</button><button class="example" type="button" aria-pressed="false" data-paper-topic="heart-multitarget" data-methods="mtt">Kernel-based multi-target heart tracking</button></div></div>
+        </article>
+        <article class="app" data-methods="mixtures reduction grid samples sample-reduction eot mtt">
+          <svg class="scene" viewBox="0 0 90 90" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="44" cy="47" r="14"/><ellipse cx="44" cy="47" rx="37" ry="20" transform="rotate(-35 44 47)"/><path d="M56 19L65 14L71 24L62 30ZM67 9L75 4M73 15L82 10"/><circle cx="18" cy="68" r="3" fill="#B68C3C" stroke="#B68C3C"/></svg>
+          <div><h3><button class="app-select" type="button" aria-pressed="false">Aerospace &amp; Radar</button></h3><div class="examples"><button class="example" type="button" aria-pressed="false" data-paper-topic="orbit-tracking" data-methods="mixtures reduction grid samples sample-reduction">Cislunar orbit determination &amp; space debris tracking</button><button class="example" type="button" aria-pressed="false" data-paper-topic="drone-radar" data-methods="eot mtt">MIMO OFDM drone radar</button><button class="example" type="button" aria-pressed="false" data-paper-topic="asynchronous-radar" data-methods="">Asynchronous multi-radar tracking fusion</button><button class="example" type="button" aria-pressed="false" data-paper-topic="compressed-radar" data-methods="">Fusion of compressed multi-radar measurements</button></div></div>
+        </article>
+      </div>
+    </section>
+  </main>
+  <aside class="paper-panel" id="paper-panel" hidden aria-labelledby="paper-topic">
+    <button id="close-papers" type="button" aria-label="Close papers" title="Close papers">&times;</button>
+    <p id="paper-topic" class="sr-only"></p><ul id="paper-list"></ul>
+    <p class="paper-note" id="paper-review-note" hidden>Historical entries are bibliography records outside the 2021-2026 PDF review.</p>
+  </aside>
+  <p class="sr-only" role="status" aria-live="polite" id="selection-status"></p>
+  <footer><p>Conceptual method&ndash;application links, not an exhaustive implementation inventory. Application examples include the supplied overview; the medical examples are not claims of clinical validation. CPD: canonical polyadic decomposition.</p></footer>
+  <script id="paper-data" type="application/json">{"papers":{"MFI21_Frisch":{"key":"MFI21_Frisch","title":"Gaussian Mixture Estimation from Weighted Samples","displayTitle":"Gaussian Mixture Estimation from Weighted Samples","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/MFI21_Frisch.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9591161/","evidence":"pdf-abstract-conclusion"},"FUSION25_Straka":{"key":"FUSION25_Straka","title":"Efficient Gaussian Mixture Filters based on Transition Density Approximation","displayTitle":"Efficient Gaussian Mixture Filters based on Transition Density Approximation","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION25_Straka.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11124060/","evidence":"pdf-abstract"},"Fusion21_Pfaff":{"key":"Fusion21_Pfaff","title":"Deep Likelihood Learning for 2-D Orientation Estimation Using a Fourier Filter","displayTitle":"Deep Likelihood Learning for 2-D Orientation Estimation Using a Fourier Filter","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion21_Pfaff.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9627032/","evidence":"pdf-abstract-conclusion"},"MFI21_Baur":{"key":"MFI21_Baur","title":"Shape Estimation and Tracking using Spherical Double Fourier Series for Three-Dimensional Range Sensors","displayTitle":"Shape Estimation and Tracking using Spherical Double Fourier Series for Three-Dimensional Range Sensors","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/MFI21_Baur.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9591169/","evidence":"pdf-abstract-conclusion"},"Fusion22_Prossel":{"key":"Fusion22_Prossel","title":"Dirac Mixture Reduction Using Wasserstein Distances on Projected Cumulative Distributions","displayTitle":"Dirac Mixture Reduction Using Wasserstein Distances on Projected Cumulative Distributions","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion22_Prossel.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9841285/","evidence":"pdf-abstract-conclusion"},"FUSION26_Zhou":{"key":"FUSION26_Zhou","title":"Closed-Form Multi-Anchor Wasserstein Barycenters for High-Quality Assumed Gaussian Filtering","displayTitle":"Closed-Form Multi-Anchor Wasserstein Barycenters for High-Quality Assumed Gaussian Filtering","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION26_Zhou.pdf","externalUrl":null,"evidence":"pdf-abstract"},"FUSION26_Frisch":{"key":"FUSION26_Frisch","title":"Interpolation of Probability Densities on a Grid in Tensor Decomposition Representation","displayTitle":"Interpolation of Probability Densities on a Grid in Tensor Decomposition Representation","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION26_Frisch.pdf","externalUrl":null,"evidence":"pdf-abstract"},"MFI26_Zhou":{"key":"MFI26_Zhou","title":"Parametric and Tensor-Based Nonparametric Filtering for Extended Object Tracking with Mixed Euclidean-Directional States","displayTitle":"Parametric and Tensor-Based Nonparametric Filtering for Extended Object Tracking with Mixed Euclidean-Directional States","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/MFI26_Zhou.pdf","externalUrl":null,"evidence":"pdf-abstract-method"},"FUSION23_Hanebeck":{"key":"FUSION23_Hanebeck","title":"Progressive Bayesian Particle Flows Based on Optimal Transport Map Sequences","displayTitle":"Progressive Bayesian Particle Flows Based on Optimal Transport Map Sequences","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION23_Hanebeck.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10224077/","evidence":"pdf-abstract-conclusion"},"SDF-MFI23_Prossel":{"key":"SDF-MFI23_Prossel","title":"Progressive Particle Filtering Using Projected Cumulative Distributions","displayTitle":"Progressive Particle Filtering Using Projected Cumulative Distributions","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/Mfi23_Prossel.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10361371/","evidence":"pdf-abstract-conclusion"},"AAS25_GiraldoGrueso":{"key":"AAS25_GiraldoGrueso","title":"Optimal Grid Point Sampling for Point Mass Filtering","displayTitle":"Optimal Grid Point Sampling for Point Mass Filtering","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/AAS25_GiraldoGrueso.pdf","externalUrl":null,"evidence":"pdf-abstract-conclusion"},"ACC23_Ernst":{"key":"ACC23_Ernst","title":"The Kernel-SME Filter with Adaptive Kernel Widths for Association-free Multi-target Tracking","displayTitle":"The Kernel-SME Filter with Adaptive Kernel Widths for Association-free Multi-target Tracking","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/ACC23_Ernst.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10155842/","evidence":"pdf-abstract-conclusion"},"SDF25_Frisch":{"key":"SDF25_Frisch","title":"Fokker-Planck Prediction on the Cylindric Manifold using Tensor Decomposition of a Regular Grid","displayTitle":"Fokker-Planck Prediction on the Cylindric Manifold using Tensor Decomposition of a Regular Grid","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/SDF25_Frisch.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11330240/","evidence":"pdf-abstract"},"MFI26_Frisch":{"key":"MFI26_Frisch","title":"Estimating Rotation Speed on the Sphere: Low-Rank Fokker-Planck Prediction on \\mathbbS^2 \\times \\mathbbR","displayTitle":"Estimating Rotation Speed on the Sphere: Low-Rank Fokker-Planck Prediction on 𝕊² × ℝ","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/MFI26_Frisch.pdf","externalUrl":null,"evidence":"pdf-abstract"},"MFI25_Walker":{"key":"MFI25_Walker","title":"Weaknesses of the ANEES and New Calibration Measures for Multivariate Predictions","displayTitle":"Weaknesses of the ANEES and New Calibration Measures for Multivariate Predictions","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/MFI25_Walker.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11259249/","evidence":"pdf-abstract"},"FUSION26_Walker":{"key":"FUSION26_Walker","title":"Local Modified Cramér–von Mises Distance for Uncertainty Calibration Assessment in Regression","displayTitle":"Local Modified Cramér–von Mises Distance for Uncertainty Calibration Assessment in Regression","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION26_Walker.pdf","externalUrl":null,"evidence":"pdf-abstract"},"PLANS23_Siebler":{"key":"PLANS23_Siebler","title":"Bayesian Cramér-Rao Lower Bounds for Magnetic Field-based Train Localization","displayTitle":"Bayesian Cramér-Rao Lower Bounds for Magnetic Field-based Train Localization","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/PLANS23_Siebler.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10140073/","evidence":"pdf-abstract-conclusion"},"Fusion13_Kurz-Bingham":{"key":"Fusion13_Kurz-Bingham","title":"Recursive Estimation of Orientation Based on the Bingham Distribution","displayTitle":"Recursive Estimation of Orientation Based on the Bingham Distribution","year":2013,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion13_Kurz-Bingham.pdf","externalUrl":null,"evidence":"bibliography-only"},"Sensors21_Li":{"key":"Sensors21_Li","title":"Progressive von Mises–Fisher Filtering Using Isotropic Sample Sets for Nonlinear Hyperspherical Estimation","displayTitle":"Progressive von Mises–Fisher Filtering Using Isotropic Sample Sets for Nonlinear Hyperspherical Estimation","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/Sensors21_Li.pdf","externalUrl":"https://www.mdpi.com/1424-8220/21/9/2991","evidence":"pdf-abstract-conclusion"},"Sensors21_Pfaff":{"key":"Sensors21_Pfaff","title":"The State Space Subdivision Filter for Estimation on SE(2)","displayTitle":"The State Space Subdivision Filter for Estimation on SE(2)","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/Sensors21_Pfaff.pdf","externalUrl":"https://www.mdpi.com/1424-8220/21/18/6314","evidence":"pdf-abstract-conclusion"},"Fusion22_Pfaff":{"key":"Fusion22_Pfaff","title":"The State Space Subdivision Filter for SE(3)","displayTitle":"The State Space Subdivision Filter for SE(3)","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion22_Pfaff.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9841384/","evidence":"pdf-abstract-conclusion"},"MFI25_Zhou":{"key":"MFI25_Zhou","title":"Joint Pose and Shape Estimation of 3D Extended Objects Using Recursive Tangent-Space Bayesian Filtering on SO(3)","displayTitle":"Joint Pose and Shape Estimation of 3D Extended Objects Using Recursive Tangent-Space Bayesian Filtering on SO(3)","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/MFI25_Zhou.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11259287/","evidence":"pdf-abstract"},"FUSION26_Jabbar":{"key":"FUSION26_Jabbar","title":"On the Properties of the Spherical Analogue of the Epanechnikov Kernel for Directional Kernel Density Estimation","displayTitle":"On the Properties of the Spherical Analogue of the Epanechnikov Kernel for Directional Kernel Density Estimation","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION26_Jabbar.pdf","externalUrl":null,"evidence":"pdf-abstract"},"JAIF23_Frisch":{"key":"JAIF23_Frisch","title":"The Generalized Fibonacci Grid as Low-Discrepancy Point Set for Optimal Deterministic Gaussian Sampling","displayTitle":"The Generalized Fibonacci Grid as Low-Discrepancy Point Set for Optimal Deterministic Gaussian Sampling","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/JAIF23_Frisch.pdf","externalUrl":"https://isif.org/media/generalized-fibonacci-grid-low-discrepancy-point-set-optimal-deterministic-gaussian-sampling","evidence":"pdf-abstract-conclusion"},"Fusion21_Frisch":{"key":"Fusion21_Frisch","title":"Deterministic Gaussian Sampling With Generalized Fibonacci Grids","displayTitle":"Deterministic Gaussian Sampling With Generalized Fibonacci Grids","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion21_Frisch.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9626975/","evidence":"pdf-abstract-conclusion"},"FUSION25_Prossel":{"key":"FUSION25_Prossel","title":"Deterministic Proposal Sampling Using Projected Cumulative Distributions","displayTitle":"Deterministic Proposal Sampling Using Projected Cumulative Distributions","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION25_Prossel.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11124096/","evidence":"pdf-abstract"},"Fusion22_Frisch-PCD":{"key":"Fusion22_Frisch-PCD","title":"Deterministic Sampling on the Circle Using Projected Cumulative Distributions","displayTitle":"Deterministic Sampling on the Circle Using Projected Cumulative Distributions","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion22_Frisch-PCD.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9841299/","evidence":"pdf-abstract-conclusion"},"FUSION25_GiraldoGrueso":{"key":"FUSION25_GiraldoGrueso","title":"Optimal Transport as a Reduction Technique for Deterministic Nonlinear Filtering","displayTitle":"Optimal Transport as a Reduction Technique for Deterministic Nonlinear Filtering","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION25_GiraldoGrueso.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11124037/","evidence":"pdf-abstract"},"FUSION23_Ernst":{"key":"FUSION23_Ernst","title":"Multitarget-Multidetection Tracking Using the Kernel SME Filter","displayTitle":"Multitarget-Multidetection Tracking Using the Kernel SME Filter","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION23_Ernst.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10224206/","evidence":"pdf-abstract-conclusion"},"LCSS21_Ristic":{"key":"LCSS21_Ristic","title":"Secure Fast Covariance Intersection Using Partially Homomorphic and Order Revealing Encryption Schemes","displayTitle":"Secure Fast Covariance Intersection Using Partially Homomorphic and Order Revealing Encryption Schemes","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/LCSS21_Ristic.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9110495/","evidence":"pdf-abstract-conclusion"},"Fusion17_Noack":{"key":"Fusion17_Noack","title":"Inverse Covariance Intersection: New Insights and Properties","displayTitle":"Inverse Covariance Intersection: New Insights and Properties","year":2017,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion17_Noack.pdf","externalUrl":null,"evidence":"bibliography-only"},"Sensors21_Funk":{"key":"Sensors21_Funk","title":"Conservative Quantization of Covariance Matrices with Applications to Decentralized Information Fusion","displayTitle":"Conservative Quantization of Covariance Matrices with Applications to Decentralized Information Fusion","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/Sensors21_Funk.pdf","externalUrl":"https://www.mdpi.com/1424-8220/21/9/3059","evidence":"pdf-abstract-conclusion"},"Fusion22_Noack":{"key":"Fusion22_Noack","title":"Event-Based Kalman Filtering Exploiting Correlated Trigger Information","displayTitle":"Event-Based Kalman Filtering Exploiting Correlated Trigger Information","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion22_Noack.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9841364/","evidence":"pdf-abstract-conclusion"},"LCSS19_Schmitt":{"key":"LCSS19_Schmitt","title":"Gaussianity-Preserving Event-Based State Estimation with an FIR-Based Stochastic Trigger","displayTitle":"Gaussianity-Preserving Event-Based State Estimation with an FIR-Based Stochastic Trigger","year":2019,"pdfUrl":"https://isas.iar.kit.edu/pdf/LCSS19_Schmitt.pdf","externalUrl":null,"evidence":"bibliography-only"},"ACC26_Walker":{"key":"ACC26_Walker","title":"Sample-Efficient and Smooth Cross-Entropy Method Model Predictive Control Using Deterministic Samples","displayTitle":"Sample-Efficient and Smooth Cross-Entropy Method Model Predictive Control Using Deterministic Samples","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/ACC26_Walker.pdf","externalUrl":null,"evidence":"pdf-abstract-conclusion"},"IFAC26_Walker":{"key":"IFAC26_Walker","title":"Smooth Sampling-Based Model Predictive Control Using Deterministic Samples","displayTitle":"Smooth Sampling-Based Model Predictive Control Using Deterministic Samples","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/IFAC26_Walker.pdf","externalUrl":null,"evidence":"pdf-abstract-conclusion"},"TCST4_Reith-Braun":{"key":"TCST4_Reith-Braun","title":"Stochastic Optimal Control of an Optical Sorter with Material Recirculation","displayTitle":"Stochastic Optimal Control of an Optical Sorter with Material Recirculation","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/TCST4_Reith-Braun.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10731570/","evidence":"pdf-abstract"},"ACC19_Rosenthal":{"key":"ACC19_Rosenthal","title":"Sequence-Based Receding Horizon Control Over Networks with Delays and Data Losses","displayTitle":"Sequence-Based Receding Horizon Control Over Networks with Delays and Data Losses","year":2019,"pdfUrl":"https://isas.iar.kit.edu/pdf/ACC19_Rosenthal.pdf","externalUrl":null,"evidence":"bibliography-only"},"CDC19_Rosenthal":{"key":"CDC19_Rosenthal","title":"Sequence-Based Stochastic Receding Horizon Control Using IMM Filtering and Value Function Approximation","displayTitle":"Sequence-Based Stochastic Receding Horizon Control Using IMM Filtering and Value Function Approximation","year":2019,"pdfUrl":"https://isas.iar.kit.edu/pdf/CDC19_Rosenthal.pdf","externalUrl":null,"evidence":"bibliography-only"},"ACC18_Dolgov":{"key":"ACC18_Dolgov","title":"Stochastic Optimal Control Using Local Sample-Based Value Function Approximation","displayTitle":"Stochastic Optimal Control Using Local Sample-Based Value Function Approximation","year":2018,"pdfUrl":"https://isas.iar.kit.edu/pdf/ACC18_Dolgov.pdf","externalUrl":null,"evidence":"bibliography-only"},"TM23_Maier":{"key":"TM23_Maier","title":"Simulation Study and Experimental Validation of a Neural Network-Based Predictive Tracking System for Sensor-Based Sorting","displayTitle":"Simulation Study and Experimental Validation of a Neural Network-Based Predictive Tracking System for Sensor-Based Sorting","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/TM23_Maier.pdf","externalUrl":"https://www.degruyter.com/document/doi/10.1515/teme-2023-0033/html","evidence":"pdf-abstract-conclusion"},"TIE20_Maier":{"key":"TIE20_Maier","title":"Experimental Evaluation of a Novel Sensor-Based Sorting Approach Featuring Predictive Real-Time Multiobject Tracking","displayTitle":"Experimental Evaluation of a Novel Sensor-Based Sorting Approach Featuring Predictive Real-Time Multiobject Tracking","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/TIE20_Maier.pdf","externalUrl":"https://ieeexplore.ieee.org/document/8984697/","evidence":"pdf-abstract-conclusion"},"TII21_Thumm":{"key":"TII21_Thumm","title":"Mixture of Experts of Neural Networks and Kalman Filters for Optical Belt Sorting","displayTitle":"Mixture of Experts of Neural Networks and Kalman Filters for Optical Belt Sorting","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/TII21_Thumm.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9543590/","evidence":"pdf-abstract-conclusion"},"ACC23_Vieth":{"key":"ACC23_Vieth","title":"Improving Accuracy of Optical Sorters Using Closed-Loop Control of Material Recirculation","displayTitle":"Improving Accuracy of Optical Sorters Using Closed-Loop Control of Material Recirculation","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/ACC23_Vieth.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10156014/","evidence":"pdf-abstract-conclusion"},"PowTec22_Bauer":{"key":"PowTec22_Bauer","title":"Numerical Modelling of an Optical Belt Sorter Using a DEM–CFD Approach Coupled with Particle Tracking and Comparison with Experiments","displayTitle":"Numerical Modelling of an Optical Belt Sorter Using a DEM–CFD Approach Coupled with Particle Tracking and Comparison with Experiments","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/PowTec22_Bauer.pdf","externalUrl":"https://linkinghub.elsevier.com/retrieve/pii/S0032591018307307","evidence":"pdf-abstract-conclusion"},"PowTec22_Bauer_SimStudy":{"key":"PowTec22_Bauer_SimStudy","title":"Towards a feed material adaptive optical belt sorter: A simulation study utilizing a DEM-CFD approach","displayTitle":"Towards a feed material adaptive optical belt sorter: A simulation study utilizing a DEM-CFD approach","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/PowTec22_Bauer_SimStudy.pdf","externalUrl":"https://linkinghub.elsevier.com/retrieve/pii/S0032591022007987","evidence":"pdf-abstract-conclusion"},"EUSIPCO2025_Siebler":{"key":"EUSIPCO2025_Siebler","title":"Snapshot Estimator for Magnetic Field-based Train Localization with Uncalibrated Magnetometers","displayTitle":"Snapshot Estimator for Magnetic Field-based Train Localization with Uncalibrated Magnetometers","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/EUSIPCO2025_Siebler.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11226624/","evidence":"pdf-abstract"},"FUSION26_Siebler":{"key":"FUSION26_Siebler","title":"Simultaneous Train Localization and Radio Transmitter Mapping with TDoA and Magnetic Field Measurements","displayTitle":"Simultaneous Train Localization and Radio Transmitter Mapping with TDoA and Magnetic Field Measurements","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION26_Siebler.pdf","externalUrl":null,"evidence":"pdf-abstract"},"RAL23_Li":{"key":"RAL23_Li","title":"Continuous-Time Ultra-Wideband-Inertial Fusion","displayTitle":"Continuous-Time Ultra-Wideband-Inertial Fusion","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/RAL23_Li.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10141663/","evidence":"pdf-abstract-conclusion"},"RAL21_Li":{"key":"RAL21_Li","title":"Towards High-Performance Solid-State-LiDAR-Inertial Odometry and Mapping","displayTitle":"Towards High-Performance Solid-State-LiDAR-Inertial Odometry and Mapping","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/RAL21_Li.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9392274/","evidence":"pdf-abstract-conclusion"},"FUSION26_Winheim_Localization":{"key":"FUSION26_Winheim_Localization","title":"Zone-Based Indoor Localization from Incomplete RSSI Fingerprints via Missing Data Marginalization","displayTitle":"Zone-Based Indoor Localization from Incomplete RSSI Fingerprints via Missing Data Marginalization","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION26_Winheim_Localization.pdf","externalUrl":null,"evidence":"pdf-abstract"},"Haptics25_Fennel":{"key":"Haptics25_Fennel","title":"HapticGiant: A Novel Very Large Kinesthetic Haptic Interface with Hierarchical Force Control","displayTitle":"HapticGiant: A Novel Very Large Kinesthetic Haptic Interface with Hierarchical Force Control","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/arXiv25_Fennel.pdf","externalUrl":"https://ieeexplore.ieee.org/document/11125831/","evidence":"pdf-abstract"},"RAL21_Fennel":{"key":"RAL21_Fennel","title":"Haptic-Guided Path Generation for Remote Car-Like Vehicles","displayTitle":"Haptic-Guided Path Generation for Remote Car-Like Vehicles","year":2021,"pdfUrl":"https://isas.iar.kit.edu/pdf/RAL21_Fennel.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9384198/","evidence":"pdf-abstract-conclusion"},"AT22_Fennel":{"key":"AT22_Fennel","title":"Intuitive and Immersive Teleoperation of Robot Manipulators for Remote Decontamination: Intuitive und immersive Teleoperation von Robotermanipulatoren für die Dekontamination aus der Ferne","displayTitle":"Intuitive and Immersive Teleoperation of Robot Manipulators for Remote Decontamination: Intuitive und immersive Teleoperation von Robotermanipulatoren für die Dekontamination aus der Ferne","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/AT22_Fennel.pdf","externalUrl":"https://www.degruyter.com/document/doi/10.1515/auto-2022-0057/html","evidence":"pdf-abstract-conclusion"},"MFI22_Fennel":{"key":"MFI22_Fennel","title":"Calibration-free IMU-based Kinematic State Estimation for Robotic Manipulators","displayTitle":"Calibration-free IMU-based Kinematic State Estimation for Robotic Manipulators","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/MFI22_Fennel.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9913875/","evidence":"pdf-abstract-conclusion"},"FUSION23_Fennel":{"key":"FUSION23_Fennel","title":"Intention Estimation with Recurrent Neural Networks for Mixed Reality Environments","displayTitle":"Intention Estimation with Recurrent Neural Networks for Mixed Reality Environments","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion23_Fennel.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10224151/","evidence":"pdf-abstract-conclusion"},"Fusion22_Zea":{"key":"Fusion22_Zea","title":"Robot Joint Tracking With Mobile Depth Cameras for Augmented Reality Applications","displayTitle":"Robot Joint Tracking With Mobile Depth Cameras for Augmented Reality Applications","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion22_Zea.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9841341/","evidence":"pdf-abstract-conclusion"},"FUSION26_Pikos":{"key":"FUSION26_Pikos","title":"Direct Haptic Rendering of 3D Gaussian Splatting Scenes via Ellipsoid Overlap Check","displayTitle":"Direct Haptic Rendering of 3D Gaussian Splatting Scenes via Ellipsoid Overlap Check","year":2026,"pdfUrl":"https://isas.iar.kit.edu/pdf/FUSION26_Pikos.pdf","externalUrl":null,"evidence":"pdf-abstract"},"Fusion15_Kurz":{"key":"Fusion15_Kurz","title":"Heart Phase Estimation Using Directional Statistics for Robotic Beating Heart Surgery","displayTitle":"Heart Phase Estimation Using Directional Statistics for Robotic Beating Heart Surgery","year":2015,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion15_Kurz.pdf","externalUrl":null,"evidence":"bibliography-only"},"Fusion14_Kurz":{"key":"Fusion14_Kurz","title":"2D and 3D Image Stabilization for Robotic Beating Heart Surgery","displayTitle":"2D and 3D Image Stabilization for Robotic Beating Heart Surgery","year":2014,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion14_Kurz.pdf","externalUrl":null,"evidence":"bibliography-only"},"CURAC14_Kurz":{"key":"CURAC14_Kurz","title":"Evaluation of Image Stabilization Methods in Robotic Beating Heart Surgery","displayTitle":"Evaluation of Image Stabilization Methods in Robotic Beating Heart Surgery","year":2014,"pdfUrl":"https://isas.iar.kit.edu/pdf/CURAC14_Kurz.pdf","externalUrl":null,"evidence":"bibliography-only"},"ITBE20_Frisch":{"key":"ITBE20_Frisch","title":"Mapping and Removing the Ventricular Far Field Component in Unipolar Atrial Electrograms","displayTitle":"Mapping and Removing the Ventricular Far Field Component in Unipolar Atrial Electrograms","year":2020,"pdfUrl":null,"externalUrl":"https://ieeexplore.ieee.org/document/8995652/","evidence":"bibliography-only"},"CURAC13_Kurz":{"key":"CURAC13_Kurz","title":"Experimental Evaluation of Kinect and Inertial Sensors for Beating Heart Tracking","displayTitle":"Experimental Evaluation of Kinect and Inertial Sensors for Beating Heart Tracking","year":2013,"pdfUrl":"https://isas.iar.kit.edu/pdf/CURAC13_Kurz.pdf","externalUrl":null,"evidence":"bibliography-only"},"JAS25_GiraldoGrueso":{"key":"JAS25_GiraldoGrueso","title":"Optimal Sampling for Point Mass Filtering with Applications to Cislunar Orbit Determination","displayTitle":"Optimal Sampling for Point Mass Filtering with Applications to Cislunar Orbit Determination","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/JAS25_GiraldoGrueso.pdf","externalUrl":"https://link.springer.com/10.1007/s40295-025-00521-7","evidence":"pdf-abstract-conclusion"},"AAS25_Durant":{"key":"AAS25_Durant","title":"Good Things Come to Those Who Weight! Improving Gaussian Mixture Weights for Cislunar Debris Tracking","displayTitle":"Good Things Come to Those Who Weight! Improving Gaussian Mixture Weights for Cislunar Debris Tracking","year":2025,"pdfUrl":"https://isas.iar.kit.edu/pdf/AAS25_Durant.pdf","externalUrl":null,"evidence":"pdf-abstract-conclusion"},"IRS17_Nuss":{"key":"IRS17_Nuss","title":"MIMO OFDM radar system for drone detection","displayTitle":"MIMO OFDM radar system for drone detection","year":2017,"pdfUrl":null,"externalUrl":"https://ieeexplore.ieee.org/document/8008141/","evidence":"bibliography-only"},"SBSC24_Reith-Braun":{"key":"SBSC24_Reith-Braun","title":"Particle-Specific Deflection Windows for Optical Sorting by Uncertainty Quantification","displayTitle":"Particle-Specific Deflection Windows for Optical Sorting by Uncertainty Quantification","year":2024,"pdfUrl":"https://isas.iar.kit.edu/pdf/SBSC24_Reith-Braun.pdf","externalUrl":"https://www.shaker.de/shop/978-3-8440-9413-8","evidence":"pdf-abstract-conclusion"},"AT20_Maier":{"key":"AT20_Maier","title":"Characterizing Material Flow in Sensor-Based Sorting Systems Using an Instrumented Particle","displayTitle":"Characterizing Material Flow in Sensor-Based Sorting Systems Using an Instrumented Particle","year":2020,"pdfUrl":"https://isas.iar.kit.edu/pdf/AT20_Maier.pdf","externalUrl":"https://www.degruyter.com/document/doi/10.1515/auto-2019-0128/html","evidence":"bibliography-only"},"IPIN23_Siebler":{"key":"IPIN23_Siebler","title":"Magnetic Field-based Indoor Localization of a Tracked Robot with Simultaneous Calibration","displayTitle":"Magnetic Field-based Indoor Localization of a Tracked Robot with Simultaneous Calibration","year":2023,"pdfUrl":"https://isas.iar.kit.edu/pdf/IPIN23_Siebler.pdf","externalUrl":"https://ieeexplore.ieee.org/document/10332492/","evidence":"pdf-abstract-conclusion"},"PLANS20_Siebler":{"key":"PLANS20_Siebler","title":"Joint Train Localization and Track Identification based on Earth Magnetic Field Distortions","displayTitle":"Joint Train Localization and Track Identification based on Earth Magnetic Field Distortions","year":2020,"pdfUrl":"https://isas.iar.kit.edu/pdf/PLANS20_Siebler.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9110149/","evidence":"bibliography-only"},"IROS20_Zea":{"key":"IROS20_Zea","title":"Affordance-Based Grasping and Manipulation in Real World Applications","displayTitle":"Affordance-Based Grasping and Manipulation in Real World Applications","year":2020,"pdfUrl":"https://isas.iar.kit.edu/pdf/IROS20_Zea.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9341482/","evidence":"bibliography-only"},"ARMS_AAMAS11_Lyons":{"key":"ARMS_AAMAS11_Lyons","title":"Lazy auctions for multi-robot collision avoidance and motion control under uncertainty","displayTitle":"Lazy auctions for multi-robot collision avoidance and motion control under uncertainty","year":2012,"pdfUrl":"https://isas.iar.kit.edu/pdf/ARMS11_CalliessLyons.pdf","externalUrl":"https://link.springer.com/10.1007/978-3-642-27216-5_21","evidence":"bibliography-only"},"JMRR19_Klemm":{"key":"JMRR19_Klemm","title":"Control Algorithms for 3-DoF Handheld Robotic Devices Used in Orthopedic Surgery","displayTitle":"Control Algorithms for 3-DoF Handheld Robotic Devices Used in Orthopedic Surgery","year":2019,"pdfUrl":"https://isas.iar.kit.edu/pdf/JMRR19_Klemm.pdf","externalUrl":"https://www.worldscientific.com/doi/abs/10.1142/S2424905X19500028","evidence":"bibliography-only"},"SAM14_Kurz":{"key":"SAM14_Kurz","title":"Real-time Kernel-based Multiple Target Tracking for Robotic Beating Heart Surgery","displayTitle":"Real-time Kernel-based Multiple Target Tracking for Robotic Beating Heart Surgery","year":2014,"pdfUrl":"https://isas.iar.kit.edu/pdf/SAM14_Kurz.pdf","externalUrl":"https://ieeexplore.ieee.org/document/6882375/","evidence":"bibliography-only"},"Fusion22_Zhang":{"key":"Fusion22_Zhang","title":"Asynchronous Multi-Radar Tracking Fusion with Converted Measurements","displayTitle":"Asynchronous Multi-Radar Tracking Fusion with Converted Measurements","year":2022,"pdfUrl":"https://isas.iar.kit.edu/pdf/Fusion22_Zhang.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9841267/","evidence":"pdf-abstract-conclusion"},"ICCAIS19_Zhang":{"key":"ICCAIS19_Zhang","title":"Recursive LMMSE Centralized Fusion with Compressed Multi-Radar Measurements","displayTitle":"Recursive LMMSE Centralized Fusion with Compressed Multi-Radar Measurements","year":2019,"pdfUrl":"https://isas.iar.kit.edu/pdf/ICCAIS2019_Zhang.pdf","externalUrl":"https://ieeexplore.ieee.org/document/9074705/","evidence":"bibliography-only"}},"topics":{"mixtures":["MFI21_Frisch","FUSION25_Straka"],"fourier":["Fusion21_Pfaff","MFI21_Baur"],"reduction":["Fusion22_Prossel","FUSION26_Zhou"],"cpd":["FUSION26_Frisch","MFI26_Zhou"],"progressive":["FUSION23_Hanebeck","SDF-MFI23_Prossel"],"grid":["AAS25_GiraldoGrueso","ACC23_Ernst"],"fokker":["SDF25_Frisch","MFI26_Frisch"],"calibration":["MFI25_Walker","FUSION26_Walker","PLANS23_Siebler"],"directional":["Fusion13_Kurz-Bingham","Sensors21_Li"],"pose":["Sensors21_Pfaff","Fusion22_Pfaff","MFI25_Zhou"],"manifolds":["SDF25_Frisch","FUSION26_Jabbar"],"fibonacci":["JAIF23_Frisch","Fusion21_Frisch"],"samples":["FUSION25_Prossel","Fusion22_Frisch-PCD"],"sample-reduction":["Fusion22_Prossel","FUSION25_GiraldoGrueso"],"eot":["MFI25_Zhou","MFI26_Zhou"],"mtt":["ACC23_Ernst","FUSION23_Ernst"],"covariance":["LCSS21_Ristic","Fusion17_Noack"],"decentralized":["Sensors21_Funk","LCSS21_Ristic"],"triggers":["Fusion22_Noack","LCSS19_Schmitt"],"mpc":["ACC26_Walker","IFAC26_Walker"],"chance":["TCST4_Reith-Braun"],"networks":["ACC19_Rosenthal","CDC19_Rosenthal"],"value":["ACC18_Dolgov","CDC19_Rosenthal"],"sorting-tracking":["TM23_Maier","TIE20_Maier","TII21_Thumm"],"recirculation":["ACC23_Vieth","TCST4_Reith-Braun"],"simulation":["PowTec22_Bauer","PowTec22_Bauer_SimStudy"],"train-localization":["EUSIPCO2025_Siebler","FUSION26_Siebler"],"inertial-fusion":["RAL23_Li","RAL21_Li"],"rssi-localization":["FUSION26_Winheim_Localization"],"haptic-guidance":["Haptics25_Fennel","RAL21_Fennel"],"teleoperation":["AT22_Fennel"],"motion-intention":["MFI22_Fennel","FUSION23_Fennel"],"ar-haptics":["Fusion22_Zea","FUSION26_Pikos"],"heart-tracking":["Fusion15_Kurz","Fusion14_Kurz","CURAC14_Kurz"],"electrograms":["ITBE20_Frisch"],"camera-tracking":["CURAC13_Kurz"],"orbit-tracking":["JAS25_GiraldoGrueso","AAS25_Durant"],"drone-radar":["IRS17_Nuss"],"particle-deflection":["SBSC24_Reith-Braun"],"material-flow":["AT20_Maier"],"robot-magnetic-localization":["IPIN23_Siebler"],"railway-track-identification":["PLANS20_Siebler"],"affordance-grasping":["IROS20_Zea"],"multi-robot-collision":["ARMS_AAMAS11_Lyons"],"orthopedic-devices":["JMRR19_Klemm"],"heart-multitarget":["SAM14_Kurz"],"asynchronous-radar":["Fusion22_Zhang"],"compressed-radar":["ICCAIS19_Zhang"]}}</script>
+  <script>
+    const applications = [...document.querySelectorAll('.app')];
+    const examples = [...document.querySelectorAll('.example')];
+    const methods = [...document.querySelectorAll('.methods li')];
+    const groups = [...document.querySelectorAll('.theory-group')];
+    const status = document.querySelector('#selection-status');
+    const paperData = JSON.parse(document.querySelector('#paper-data').textContent);
+    const paperPanel = document.querySelector('#paper-panel');
+    const paperList = document.querySelector('#paper-list');
+    let selected = null;
+    let hovered = null;
+    let focused = null;
+    let paperAnchor = null;
+
+    const methodIds = element => element.dataset.methods.split(' ').filter(Boolean);
+    applications.forEach(application => {
+      application.dataset.methods = [...new Set([...application.querySelectorAll('.example')].flatMap(methodIds))].join(' ');
+    });
+
+    function paperKeys(item) {
+      if (item.matches('.app')) return [...new Set([...item.querySelectorAll('.example')].flatMap(paperKeys))];
+      if (item.matches('.theory-group')) return [...new Set([...item.querySelectorAll('.methods li')].flatMap(paperKeys))];
+      return paperData.topics[item.dataset.paperTopic || item.id] || [];
+    }
+
+    function positionPapers() {
+      if (paperPanel.hidden || !paperAnchor) return;
+      const bounds = paperAnchor.getBoundingClientRect();
+      const width = paperPanel.offsetWidth;
+      let left = bounds.right + 12;
+      if (left + width > innerWidth - 12) left = bounds.left - width - 12;
+      paperPanel.style.left = `${Math.max(12, Math.min(left, innerWidth - width - 12))}px`;
+      paperPanel.style.top = `${Math.max(12, Math.min(bounds.top, innerHeight - paperPanel.offsetHeight - 12))}px`;
+    }
+
+    function hidePapers() {
+      paperAnchor?.removeAttribute('aria-details');
+      paperAnchor = null;
+      paperPanel.hidden = true;
+    }
+
+    function showPapers(item) {
+      if (!item) {
+        hidePapers();
+        return;
+      }
+      if (paperAnchor === item && !paperPanel.hidden) return;
+      if (paperAnchor !== item) {
+        paperAnchor?.removeAttribute('aria-details');
+        paperAnchor = item;
+        item.setAttribute('aria-details', 'paper-panel');
+        document.querySelector('#paper-topic').textContent = item.querySelector('h3')?.textContent || item.textContent;
+        paperList.replaceChildren();
+        const papers = paperKeys(item).map(key => paperData.papers[key]);
+        for (const paper of papers) {
+          const entry = document.createElement('li');
+          const paperTitle = paper.displayTitle || paper.title;
+          const url = paper.pdfUrl || paper.externalUrl;
+          const key = document.createElement(url ? 'a' : 'span');
+          key.textContent = paper.key;
+          key.className = 'paper-key';
+          if (url) {
+            key.href = url;
+            key.target = '_blank';
+            key.rel = 'noopener noreferrer';
+            key.setAttribute('aria-label', `${paper.key}: ${paperTitle} (${paper.pdfUrl ? 'PDF' : 'external publication'})`);
+          }
+          const title = document.createElement('span');
+          title.className = 'paper-title';
+          title.textContent = `${paperTitle} (${paper.year})`;
+          entry.append(key, title);
+          if (!paper.pdfUrl) {
+            const note = document.createElement('span');
+            note.className = 'paper-note';
+            note.textContent = url ? 'External publication' : 'No publication link listed in the bibliography.';
+            entry.append(note);
+          }
+          paperList.append(entry);
+        }
+        document.querySelector('#paper-review-note').hidden = !papers.some(paper => paper.evidence === 'bibliography-only');
+      }
+      paperPanel.hidden = false;
+      positionPapers();
+    }
+
+    function enterTopic(item) {
+      hovered = item;
+      render();
+    }
+
+    function leaveTopic(event, parent = null) {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      if (paperPanel.contains(event.relatedTarget)) return;
+      hovered = parent?.contains(event.relatedTarget) ? parent : null;
+      render();
+    }
+
+    function blurTopic(event) {
+      if (paperPanel.contains(event.relatedTarget)) return;
+      focused = null;
+      render();
+    }
+
+    function render() {
+      const active = hovered || focused || selected;
+      const isApplication = active?.matches('.app, .example');
+      const related = new Set(!active ? [] : isApplication
+        ? methodIds(active)
+        : active.matches('.theory-group')
+          ? [...active.querySelectorAll('.methods li')].map(method => method.id)
+          : [active.id]);
+      const relatedApplications = isApplication ? [active.closest('.app')] : applications.filter(application =>
+        methodIds(application).some(id => related.has(id)));
+      const relatedExamples = isApplication
+        ? active.matches('.example') ? [active] : [...active.querySelectorAll('.example')]
+        : examples.filter(example => methodIds(example).some(id => related.has(id)));
+      methods.forEach(method => method.classList.toggle('related', related.has(method.id)));
+      methods.forEach(method => method.setAttribute('aria-pressed', String(method === selected)));
+      groups.forEach(group => group.classList.toggle('related', Boolean(group.querySelector('.methods .related'))));
+      groups.forEach(group => group.querySelector('h3').setAttribute('aria-pressed', String(group === selected)));
+      applications.forEach(application => {
+        application.classList.toggle('active', relatedApplications.includes(application));
+        application.querySelector('.app-select').setAttribute('aria-pressed', String(application === selected));
+      });
+      examples.forEach(example => {
+        example.classList.toggle('related', relatedExamples.includes(example));
+        example.setAttribute('aria-pressed', String(example === selected));
+      });
+      if (!active) status.textContent = '';
+      else if (isApplication) status.textContent = `${active.querySelector('h3')?.textContent || active.textContent}. Related methods: ${methods.filter(method => related.has(method.id)).map(method => method.textContent).join('; ') || 'No method links specified'}.`;
+      else status.textContent = `${active.querySelector('h3')?.textContent || active.textContent}. Related application examples: ${relatedExamples.map(example => example.textContent).join('; ') || 'No application links specified'}.`;
+      showPapers(selected);
+    }
+
+    groups.forEach(group => {
+      const heading = group.querySelector('h3');
+      heading.tabIndex = 0;
+      heading.setAttribute('role', 'button');
+      heading.setAttribute('aria-pressed', 'false');
+      heading.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); heading.click(); }
+      });
+      group.addEventListener('click', event => {
+        if (event.target.closest('.methods li')) return;
+        selected = selected === group ? null : group;
+        render();
+      });
+      group.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') enterTopic(group); });
+      group.addEventListener('pointerleave', event => leaveTopic(event));
+    });
+    methods.forEach(method => {
+      method.tabIndex = 0;
+      method.setAttribute('role', 'button');
+      method.setAttribute('aria-pressed', 'false');
+      method.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') enterTopic(method); });
+      method.addEventListener('pointerleave', event => leaveTopic(event, method.closest('.theory-group')));
+      method.addEventListener('focus', () => { focused = method; if (method.matches(':focus-visible')) render(); });
+      method.addEventListener('click', () => { selected = selected === method ? null : method; render(); });
+      method.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); method.click(); }
+      });
+      method.addEventListener('blur', blurTopic);
+    });
+    applications.forEach(application => {
+      const control = application.querySelector('.app-select');
+      application.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') enterTopic(application); });
+      application.addEventListener('pointerleave', event => leaveTopic(event));
+      control.addEventListener('focus', () => { focused = application; if (control.matches(':focus-visible')) render(); });
+      control.addEventListener('blur', blurTopic);
+      application.addEventListener('click', event => {
+        if (event.target.closest('.example')) return;
+        selected = selected === application ? null : application;
+        render();
+      });
+    });
+    examples.forEach(example => {
+      example.addEventListener('pointerenter', event => { if (event.pointerType === 'mouse') enterTopic(example); });
+      example.addEventListener('pointerleave', event => leaveTopic(event, example.closest('.app')));
+      example.addEventListener('focus', () => { focused = example; if (example.matches(':focus-visible')) render(); });
+      example.addEventListener('blur', blurTopic);
+      example.addEventListener('click', () => { selected = selected === example ? null : example; render(); });
+    });
+    paperPanel.addEventListener('pointerleave', event => leaveTopic(event));
+    paperPanel.addEventListener('focusout', blurTopic);
+    document.querySelector('#close-papers').addEventListener('click', () => {
+      selected = null;
+      render();
+    });
+    document.addEventListener('click', event => {
+      if (event.target.closest('.app, .theory-group, .paper-panel')) return;
+      selected = null;
+      render();
+    });
+    addEventListener('resize', positionPapers);
+    addEventListener('scroll', positionPapers, true);
+    document.addEventListener('keydown', event => {
+      if (event.key === 'ArrowDown' && paperAnchor?.contains(event.target) && !paperPanel.hidden) {
+        event.preventDefault();
+        (paperPanel.querySelector('a') || document.querySelector('#close-papers')).focus();
+      }
+      if (event.key === 'Escape') { selected = null; hovered = null; focused = null; render(); }
+    });
+  </script>
+</body>
+</html>
