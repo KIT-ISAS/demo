@@ -7,6 +7,10 @@ This public repository collects interactive demos, published with GitHub Pages:
 
 - [Fib-Likelihood](https://kit-isas.github.io/demo/fib-likelihood/): coordinate-separable
   proposals and Fibonacci samples for range/bearing likelihoods.
+- [Sample fusion explorer](https://kit-isas.github.io/demo/sample-fusion-explorer.html):
+  browser-only interactive comparison of particle-sample fusion methods.
 
 The Fib-Likelihood page is a standalone HTML build. It loads BokehJS from the CDN and needs
 an internet connection.
+
+The sample fusion explorer is a standalone HTML build with its data embedded.
