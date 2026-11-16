@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joint, Marginal &amp; Conditional Gaussian</title>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.10.2.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.10.2.min.js"></script>
+<script>
+window.MathJax = { tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] } };
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+<style>
+	html, body { margin: 0; padding: 0; height: 100%; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+	body { display: flex; flex-direction: row; }
+	#sidebar { flex: 0 0 30%; min-width: 280px; max-width: 480px; box-sizing: border-box; padding: 12px 16px;
+		overflow-y: auto; height: 100vh; border-right: 1px solid #ddd; }
+	#sidebar h1 { font-size: 1.3em; margin: 0 0 8px 0; }
+	#main { flex: 1 1 auto; height: 100vh; min-width: 0; box-sizing: border-box; padding: 4px; }
+	#controls { width: 100%; }
+	#plot { width: 100%; height: 100%; }
+	details { margin-top: 16px; border-top: 1px solid #ddd; padding-top: 8px; }
+	summary { cursor: pointer; font-weight: 600; color: #0d6efd; }
+	.info { font-size: 0.9em; line-height: 1.4; overflow-x: auto; }
+	.info h2 { font-size: 1.2em; } .info h3 { font-size: 1.05em; }
+	@media (max-width: 800px) {
+		body { flex-direction: column; }
+		#sidebar { flex: none; max-width: none; width: 100%; height: auto; border-right: none; border-bottom: 1px solid #ddd; }
+		#main { height: 80vh; flex: none; }
+	}
+</style>
+<script src="https://cdn.plot.ly/plotly-3.1.0.min.js" charset="utf-8"></script>
+<style>
+	#main { overflow-y: auto; }
+	#plot3d { width: 100%; aspect-ratio: 1 / 1; min-height: 250px; resize: vertical; overflow: hidden;
+		border-bottom: 1px solid #ddd; }
+	#plot { height: 45vh; min-height: 250px; }
+</style>
+</head>
+<body>
+<div id="sidebar">
+	<h1>Joint, Marginal &amp; Conditional Gaussian</h1>
+	<div id="controls"><div id="e7df4601-2384-48ff-857f-e7618d8eee43" data-root-id="p1026" style="display: contents;"></div></div>
+	<details>
+		<summary>Learn More</summary>
+		<div class="info"><h2>2D Gaussian</h2>
+<p>Interactive visualizaton of the 2D Gaussian and its marginal and conditional density. </p>
+<p>$$
+f(\underline x) = \mathcal{N}(\underline x; \underline \mu, \textbf{C}) = 
+\frac{1}{2\pi \sqrt{\det(\textbf{C})}}
+\cdot \exp\!\left\{ -\frac{1}{2}
+\cdot (\underline x - \underline \mu)^\top \textbf{C}^{-1} (\underline x - \underline \mu) \right\} \enspace,
+\quad \underline{x}\in \mathbb{R}^2 \enspace, \quad \textbf{C} \enspace \text{positive semidefinite}  \enspace.
+$$</p>
+<h3>Formulas and Literature</h3>
+<p>The Gaussian parameters are restricted to 
+$$
+\underline \mu = \begin{bmatrix}0 \\ 0\end{bmatrix}\,, \quad 
+\textbf{C} = \begin{bmatrix}1 &amp; \rho \\ \rho &amp; 1\end{bmatrix} \enspace. 
+$$</p>
+<p>Formulas for marginalization and conditioning of are given in the 
+[<a target="_blank" rel="noopener" href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf">MatrixCookbook</a>]. </p>
+<p>Note that the 1D and 2D densities are scaled with respect to each other such that 2D joint and 1D marginal have 
+the same height and therefore the same shape along the $x$ axis.</p></div>
+	</details>
+</div>
+<div id="main">
+	<div id="plot3d"></div>
+	<div id="plot"><div id="d2460433-b05f-46fd-8e83-c8c36ed5e0f6" data-root-id="p1079" style="display: contents;"></div></div>
+</div>
+<script>
+(function() {
+  const fn = function() {
+    Bokeh.safely(function() {
+      (function(root) {
+        function embed_document(root) {
+        const docs_json = '{"87e3d150-203d-4c30-8a4b-487a35a39eb8":{"version":"3.10.2","title":"Bokeh Application","config":{"type":"object","name":"DocumentConfig","id":"p1082","attributes":{"notifications":{"type":"object","name":"Notifications","id":"p1083"}}},"roots":[{"type":"object","name":"Column","id":"p1026","attributes":{"sizing_mode":"stretch_width","children":[{"type":"object","name":"Row","id":"p1014","attributes":{"sizing_mode":"stretch_width","children":[{"type":"object","name":"Slider","id":"p1008","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:value",[{"type":"object","name":"CustomJS","id":"p1080","attributes":{"args":{"type":"map","entries":[["y_hat",{"id":"p1008"}],["rho",{"type":"object","name":"Slider","id":"p1009","attributes":{"js_property_callbacks":{"type":"map","entries":[["change:value",[{"id":"p1080"}]]]},"sizing_mode":"stretch_width","title":"Correlation \\u03c1","start":-1,"end":1,"value":0.5,"step":0.01}}],["src_curves",{"type":"object","name":"ColumnDataSource","id":"p1027","attributes":{"selected":{"type":"object","name":"Selection","id":"p1028","attributes":{"indices":[],"line_indices":[]}},"selection_policy":{"type":"object","name":"UnionRenderers","id":"p1029"},"data":{"type":"map","entries":[["x",[]],["marginal",[]],["conditional",[]],["slice",[]]]}}}],["rang",[-4,4]],["n",160],["n3",100],["colors",["#636EFA","#EF553B","#FFA15A"]]]},"code":"\\n// joint parameters: mu = 0, C = [[1, r], [r, 1]]\\nconst r = Math.sign(rho.value) * Math.min(Math.abs(rho.value), 0.9999);\\nconst ys = y_hat.value;\\nconst det = 1 - r * r;\\nconst gauss1 = (x, m, C) =&gt; 1 / Math.sqrt(2 * Math.PI * C) * Math.exp(-0.5 * (x - m) ** 2 / C);\\nconst xv = Array.from({length: n}, (_, i) =&gt; rang[0] + (rang[1] - rang[0]) * i / (n - 1));\\n\\n// marginal, conditional (Matrix Cookbook) and slice, same scaling as the Dash app\\nconst marginal_fac = 1 / gauss1(0, 0, 1);\\nconst muCond = r * ys, CCond = 1 - r * r;\\nconst marginal = xv.map(x =&gt; gauss1(x, 0, 1) * marginal_fac);\\nconst cond = xv.map(x =&gt; gauss1(x, muCond, CCond));\\nconst slice = cond.map(z =&gt; z / gauss1(0, 0, CCond) * gauss1(ys, 0, 1) / gauss1(0, 0, 1));\\nsrc_curves.data = {x: xv, marginal: marginal, conditional: cond.map(z =&gt; z * marginal_fac), slice: slice};\\n\\n// 3D view (Plotly.js), traces as in the Dash app\\nconst el = document.getElementById(&#x27;plot3d&#x27;);\\nif (window.Plotly &amp;&amp; el) {\\n\\tconst v = Array.from({length: n3}, (_, i) =&gt; rang[0] + (rang[1] - rang[0]) * i / (n3 - 1));\\n\\tconst g = window._cond3d || (window._cond3d = {});\\n\\t// keep the array references while only \\u0177 changes, so Plotly.react does not redraw the surface\\n\\tif (cb_obj !== y_hat || g.r !== r) {\\n\\t\\tg.r = r;\\n\\t\\tg.z = v.map(y =&gt; v.map(x =&gt; Math.exp(-0.5 * (x * x - 2 * r * x * y + y * y) / det)));\\n\\t\\tg.marg = v.map(x =&gt; gauss1(x, 0, 1) * marginal_fac);\\n\\t\\tg.wall = v.map(() =&gt; rang[0]);\\n\\t}\\n\\tconst c3 = v.map(x =&gt; gauss1(x, muCond, CCond));\\n\\tconst line = (name, y, z, width, color) =&gt; ({type: &#x27;scatter3d&#x27;, mode: &#x27;lines&#x27;, name: name, x: v, y: y, z: z,\\n\\t\\tline: {width: width, color: color}, hoverinfo: &#x27;skip&#x27;, showlegend: true});\\n\\tconst traces = [\\n\\t\\t{type: &#x27;surface&#x27;, name: &#x27;Joint f(x,y)&#x27;, x: v, y: v, z: g.z, hoverinfo: &#x27;none&#x27;, colorscale: &#x27;Cividis&#x27;,\\n\\t\\t showlegend: true, showscale: false,\\n\\t\\t contours: {z: {show: true, start: 0.1, end: 1, size: 0.1, width: 1, color: &#x27;white&#x27;},\\n\\t\\t            x: {highlight: false}, y: {highlight: false}}},\\n\\t\\tline(&#x27;Marginal f(x)&#x27;, g.wall, g.marg, 10, colors[0]),\\n\\t\\tline(&#x27;Conditional f(x|\\u0177)&#x27;, g.wall, c3.map(z =&gt; z * marginal_fac), 4, colors[1]),\\n\\t\\tline(&#x27;Slice f(x,\\u0177)&#x27;, v.map(() =&gt; ys), c3.map(z =&gt; z / gauss1(0, 0, CCond) * gauss1(ys, 0, 1) / gauss1(0, 0, 1) + 1e-3), 8, colors[2]),\\n\\t];\\n\\tconst ax = t =&gt; ({title: {text: t}, range: rang, showspikes: false});\\n\\tconst layout = {\\n\\t\\tuirevision: &#x27;keep&#x27;, margin: {l: 0, r: 0, t: 0, b: 0, pad: 0},\\n\\t\\tlegend: {yanchor: &#x27;top&#x27;, y: 0.98, xanchor: &#x27;left&#x27;, x: 0.02, bgcolor: &#x27;rgba(255,255,255,0.7)&#x27;},\\n\\t\\tscene: {camera: {projection: {type: &#x27;orthographic&#x27;}}, aspectmode: &#x27;auto&#x27;,\\n\\t\\t        xaxis: ax(&#x27;x&#x27;), yaxis: ax(&#x27;y&#x27;), zaxis: {title: {text: &#x27;&#x27;}, nticks: 1, showspikes: false}},\\n\\t};\\n\\tconst config = {responsive: true, scrollZoom: true, displaylogo: false,\\n\\t\\ttoImageButtonOptions: {format: &#x27;png&#x27;, filename: &#x27;conditional&#x27;}};\\n\\t// after the first draw, reuse el.layout so the user&#x27;s camera (rotation/zoom) survives slider changes\\n\\tPlotly.react(el, traces, el.layout || layout, config).then(() =&gt; {\\n\\t\\tif (el._cond_click) return;\\n\\t\\tel._cond_click = true;\\n\\t\\t// follow user resizing of the container (CSS resize handle)\\n\\t\\tnew ResizeObserver(() =&gt; Plotly.Plots.resize(el)).observe(el);\\n\\t\\t// plotly_click is unreliable in 3D scenes: use the hovered surface point and a native click without drag\\n\\t\\tlet hy = null, down = null;\\n\\t\\tel.on(&#x27;plotly_hover&#x27;, ev =&gt; { const p = ev.points &amp;&amp; ev.points[0]; hy = p &amp;&amp; p.curveNumber === 0 ? p.y : null; });\\n\\t\\tel.on(&#x27;plotly_unhover&#x27;, () =&gt; { hy = null; });\\n\\t\\tel.addEventListener(&#x27;pointerdown&#x27;, ev =&gt; { down = [ev.clientX, ev.clientY]; }, true);\\n\\t\\tel.addEventListener(&#x27;pointerup&#x27;, ev =&gt; {\\n\\t\\t\\tif (down &amp;&amp; hy !== null &amp;&amp; Math.hypot(ev.clientX - down[0], ev.clientY - down[1]) &lt; 4)\\n\\t\\t\\t\\ty_hat.value = Math.round(Math.min(rang[1], Math.max(rang[0], hy)) * 100) / 100;\\n\\t\\t\\tdown = null;\\n\\t\\t}, true);\\n\\t});\\n}\\n"}}]]]},"sizing_mode":"stretch_width","title":"Condition on \\u0177","start":-4,"end":4,"value":0.5,"step":0.01}},{"type":"object","name":"HelpButton","id":"p1012","attributes":{"margin":[5,0,5,4],"align":"center","icon":{"type":"object","name":"BuiltinIcon","id":"p1013","attributes":{"size":18,"icon_name":"help"}},"tooltip":{"type":"object","name":"Tooltip","id":"p1011","attributes":{"stylesheets":[{"type":"object","name":"InlineStyleSheet","id":"p1007","attributes":{"css":":host { max-width: 420px; white-space: normal; }"}}],"position":"right","content":{"type":"object","name":"bokeh.models.dom.HTML","id":"p1010","attributes":{"html":["Value \\u0177 to condition on. You can also click on the joint density surface."]}}}}}}]}},{"type":"object","name":"Row","id":"p1019","attributes":{"sizing_mode":"stretch_width","children":[{"id":"p1009"},{"type":"object","name":"HelpButton","id":"p1017","attributes":{"margin":[5,0,5,4],"align":"center","icon":{"type":"object","name":"BuiltinIcon","id":"p1018","attributes":{"size":18,"icon_name":"help"}},"tooltip":{"type":"object","name":"Tooltip","id":"p1016","attributes":{"stylesheets":[{"id":"p1007"}],"position":"right","content":{"type":"object","name":"bokeh.models.dom.HTML","id":"p1015","attributes":{"html":["Correlation coefficient \\u03c1 of the joint Gaussian with \\u03bc = 0, \\u03c3x = \\u03c3y = 1."]}}}}}}]}},{"type":"object","name":"Row","id":"p1025","attributes":{"children":[{"type":"object","name":"Div","id":"p1020","attributes":{"margin":[10,5,2,5],"text":"&lt;b&gt;Plot&lt;/b&gt;"}},{"type":"object","name":"HelpButton","id":"p1023","attributes":{"align":"center","icon":{"type":"object","name":"BuiltinIcon","id":"p1024","attributes":{"size":18,"icon_name":"help"}},"tooltip":{"type":"object","name":"Tooltip","id":"p1022","attributes":{"stylesheets":[{"id":"p1007"}],"position":"right","content":{"type":"object","name":"bokeh.models.dom.HTML","id":"p1021","attributes":{"html":["&lt;b&gt;3D view (top)&lt;/b&gt;&lt;ul style=\\"margin:4px 0;padding-left:18px\\"&gt;&lt;li&gt;rotate: drag with the mouse&lt;/li&gt;&lt;li&gt;zoom: mouse wheel&lt;/li&gt;&lt;li&gt;set \\u0177: click on the surface&lt;/li&gt;&lt;li&gt;show/hide: click in the legend&lt;/li&gt;&lt;li&gt;change height: drag the handle at the bottom right corner&lt;/li&gt;&lt;/ul&gt;Joint f(x,y) with contour lines at heights 0.1, 0.2, \\u2026, 0.9 of the maximum. Marginal and conditional are drawn on the back wall y = \\u22124.&lt;br&gt;&lt;br&gt;&lt;b&gt;Plot interaction&lt;/b&gt;&lt;ul style=\\"margin:4px 0;padding-left:18px\\"&gt;&lt;li&gt;pan: drag with the mouse&lt;/li&gt;&lt;li&gt;zoom: mouse wheel&lt;/li&gt;&lt;li&gt;show/hide lines: click in the legend&lt;/li&gt;&lt;li&gt;more tools &amp;amp; save as PNG: toolbar at the top right&lt;/li&gt;&lt;/ul&gt;Below: marginal, conditional and slice as functions of x. Joint and marginal are scaled to the same height."]}}}}}}]}}]}},{"type":"object","name":"Column","id":"p1079","attributes":{"sizing_mode":"stretch_both","children":[{"type":"object","name":"Figure","id":"p1032","attributes":{"sizing_mode":"stretch_both","x_range":{"type":"object","name":"Range1d","id":"p1030","attributes":{"start":-4,"end":4}},"y_range":{"type":"object","name":"DataRange1d","id":"p1031","attributes":{"start":0,"range_padding":0.05}},"x_scale":{"type":"object","name":"LinearScale","id":"p1041"},"y_scale":{"type":"object","name":"LinearScale","id":"p1042"},"title":{"type":"object","name":"Title","id":"p1039"},"renderers":[{"type":"object","name":"GlyphRenderer","id":"p1060","attributes":{"data_source":{"id":"p1027"},"view":{"type":"object","name":"CDSView","id":"p1061","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1062"}}},"glyph":{"type":"object","name":"Line","id":"p1057","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"marginal"},"line_color":"#636EFA","line_width":6}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1058","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"marginal"},"line_color":"#636EFA","line_alpha":0.1,"line_width":6}},"muted_glyph":{"type":"object","name":"Line","id":"p1059","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"marginal"},"line_color":"#636EFA","line_alpha":0.2,"line_width":6}}}},{"type":"object","name":"GlyphRenderer","id":"p1066","attributes":{"data_source":{"id":"p1027"},"view":{"type":"object","name":"CDSView","id":"p1067","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1068"}}},"glyph":{"type":"object","name":"Line","id":"p1063","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"conditional"},"line_color":"#EF553B","line_width":3}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1064","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"conditional"},"line_color":"#EF553B","line_alpha":0.1,"line_width":3}},"muted_glyph":{"type":"object","name":"Line","id":"p1065","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"conditional"},"line_color":"#EF553B","line_alpha":0.2,"line_width":3}}}},{"type":"object","name":"GlyphRenderer","id":"p1072","attributes":{"data_source":{"id":"p1027"},"view":{"type":"object","name":"CDSView","id":"p1073","attributes":{"filter":{"type":"object","name":"AllIndices","id":"p1074"}}},"glyph":{"type":"object","name":"Line","id":"p1069","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"slice"},"line_color":"#FFA15A","line_width":4}},"nonselection_glyph":{"type":"object","name":"Line","id":"p1070","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"slice"},"line_color":"#FFA15A","line_alpha":0.1,"line_width":4}},"muted_glyph":{"type":"object","name":"Line","id":"p1071","attributes":{"x":{"type":"field","field":"x"},"y":{"type":"field","field":"slice"},"line_color":"#FFA15A","line_alpha":0.2,"line_width":4}}}}],"toolbar":{"type":"object","name":"Toolbar","id":"p1040","attributes":{"tools":[{"type":"object","name":"PanTool","id":"p1053","attributes":{"dimensions":"width"}},{"type":"object","name":"WheelZoomTool","id":"p1054","attributes":{"dimensions":"width","renderers":"auto"}},{"type":"object","name":"ResetTool","id":"p1055"},{"type":"object","name":"SaveTool","id":"p1056"}],"logo":null,"active_drag":{"id":"p1053"},"active_scroll":{"id":"p1054"}}},"toolbar_location":"above","left":[{"type":"object","name":"LinearAxis","id":"p1048","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1049","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1050"},"major_label_policy":{"type":"object","name":"AllLabels","id":"p1051"}}}],"below":[{"type":"object","name":"LinearAxis","id":"p1043","attributes":{"ticker":{"type":"object","name":"BasicTicker","id":"p1044","attributes":{"mantissas":[1,2,5]}},"formatter":{"type":"object","name":"BasicTickFormatter","id":"p1045"},"axis_label":"x","major_label_policy":{"type":"object","name":"AllLabels","id":"p1046"}}}],"center":[{"type":"object","name":"Grid","id":"p1047","attributes":{"axis":{"id":"p1043"}}},{"type":"object","name":"Grid","id":"p1052","attributes":{"dimension":1,"axis":{"id":"p1048"}}},{"type":"object","name":"Legend","id":"p1078","attributes":{"location":"top_left","background_fill_alpha":0.7,"click_policy":"hide","items":[{"type":"object","name":"LegendItem","id":"p1075","attributes":{"label":{"type":"value","value":"Marginal f(x)"},"renderers":[{"id":"p1060"}]}},{"type":"object","name":"LegendItem","id":"p1076","attributes":{"label":{"type":"value","value":"Conditional f(x|\\u0177)"},"renderers":[{"id":"p1066"}]}},{"type":"object","name":"LegendItem","id":"p1077","attributes":{"label":{"type":"value","value":"Slice f(x,\\u0177)"},"renderers":[{"id":"p1072"}]}}]}}]}}]}}],"callbacks":{"type":"map","entries":[["document_ready",[{"type":"object","name":"CustomJS","id":"p1081","attributes":{"args":{"type":"map","entries":[["y_hat",{"id":"p1008"}],["rho",{"id":"p1009"}],["update",{"id":"p1080"}]]},"code":"\\n// inverse of the standard normal CDF (Acklam&#x27;s algorithm, rel. error &lt; 1.2e-9)\\nfunction ndtri(p) {\\n\\tif (!(p &gt; 0)) return p === 0 ? -Infinity : NaN;\\n\\tif (!(p &lt; 1)) return p === 1 ? Infinity : NaN;\\n\\tconst a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02, 1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00];\\n\\tconst b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02, 6.680131188771972e+01, -1.328068155288572e+01];\\n\\tconst c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00, -2.549732539343734e+00, 4.374664141464968e+00, 2.938163982698783e+00];\\n\\tconst d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00, 3.754408661907416e+00];\\n\\tconst pl = 0.02425;\\n\\tif (p &lt; pl) {\\n\\t\\tconst q = Math.sqrt(-2 * Math.log(p));\\n\\t\\treturn (((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) / ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1);\\n\\t}\\n\\tif (p &gt; 1 - pl) {\\n\\t\\tconst q = Math.sqrt(-2 * Math.log(1 - p));\\n\\t\\treturn -(((((c[0]*q + c[1])*q + c[2])*q + c[3])*q + c[4])*q + c[5]) / ((((d[0]*q + d[1])*q + d[2])*q + d[3])*q + 1);\\n\\t}\\n\\tconst q = p - 0.5, r = q * q;\\n\\treturn (((((a[0]*r + a[1])*r + a[2])*r + a[3])*r + a[4])*r + a[5]) * q / (((((b[0]*r + b[1])*r + b[2])*r + b[3])*r + b[4])*r + 1);\\n}\\n// sqrt(2)*erfinv(2p-1) == ndtri(p)\\nfunction randn() {\\n\\tlet u = 0;\\n\\twhile (u === 0) u = Math.random();\\n\\treturn Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * Math.random());\\n}\\nfunction randint(lo, hi) {  // like numpy: lo &lt;= k &lt; hi\\n\\treturn lo + Math.floor(Math.random() * (hi - lo));\\n}\\n\\ny_hat.value = randint(-40, 40) / 10;\\nconst r = randint(-9, 9) / 10;\\nif (rho.value === r) update.execute(rho); else rho.value = r;\\n"}}]]]}}}';
+        const render_items = [{"docid":"87e3d150-203d-4c30-8a4b-487a35a39eb8","roots":{"p1026":"e7df4601-2384-48ff-857f-e7618d8eee43","p1079":"d2460433-b05f-46fd-8e83-c8c36ed5e0f6"},"root_ids":["p1026","p1079"]}];
+        root.Bokeh.embed.embed_items(docs_json, render_items);
+        }
+        if (root.Bokeh !== undefined) {
+          embed_document(root);
+        } else {
+          let attempts = 0;
+          const timer = setInterval(function(root) {
+            if (root.Bokeh !== undefined) {
+              clearInterval(timer);
+              embed_document(root);
+            } else {
+              attempts++;
+              if (attempts > 100) {
+                clearInterval(timer);
+                console.log("Bokeh: ERROR: Unable to run BokehJS code because BokehJS library is missing");
+              }
+            }
+          }, 10, root)
+        }
+      })(window);
+    });
+  };
+  if (document.readyState != "loading") fn();
+  else document.addEventListener("DOMContentLoaded", fn);
+})();
+</script>
+
+</body>
+</html>
